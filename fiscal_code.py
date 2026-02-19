@@ -1,4 +1,10 @@
 from helpers import find_comuni, is_consonant, is_vowel
+from typing import Pattern
+import re
+
+# la regex non tiene conto di varie cose tra cui la bisestilità degli anni etc effettua solo una validazione superficiale del formato
+REG_FISCAL_CODE: Final[Pattern] = re.compile(r'^(?P<surname>[A-Z]{3})(?P<name>[A-Z]{3})(?P<birth_year>\d{2})(?P<birth_month>A|B|C|D|E|H|L|M|P|R|S|T)(?P<birth_day>\d{2})(?P<comune>[A-Z]{1}\d{3})(?P<cin>[A-Z]{1})')
+
 
 # accetta il nome del comune e ritorna il codice catastale (gestisce solo comuni italiani)
 # es. fc_comune('Firenze') -> 'D612'
@@ -60,7 +66,8 @@ def fc_birth_day(day_no: int, sex: str) -> str:
 
 # dati i 15 caratteri alfanumerici che compongono il codice fiscale calcola il sedicesimo ed ultimo carattere che funge da carattere di controllo
 def fc_cin(fiscal_code: str) -> str:
-    assert len(fiscal_code) == 15
+
+    assert len(fiscal_code) == 15 and REG_FISCAL_CODE.match(fiscal_code + 'X')
 
     ODD_ENCODE: Final[dict[str,int]] = {
         '0': 1,  '1': 0,  '2': 5,  '3': 7,  '4': 9,  '5': 13, '6': 15, '7': 17, '8': 19, '9': 21,
@@ -70,7 +77,7 @@ def fc_cin(fiscal_code: str) -> str:
     }
 
     EVEN_ENCODE: Final[dict[str,int]] = {
-        '0': 0,  '1': 1,  '2': 2,  '3': 3,  '4': 4,  '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+        '0': 0,  '1': 1,  '2': 2,  '3': 3,  '4': 4,  '5': 5,  '6': 6,  '7': 7,  '8': 8,  '9': 9,
         'A': 0,  'B': 1,  'C': 2,  'D': 3,  'E': 4,  'F': 5,  'G': 6,  'H': 7,  'I': 8,  'J': 9, 
         'K': 10, 'L': 11, 'M': 12, 'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18, 'T': 19,
         'U': 20, 'V': 21, 'W': 22, 'X': 23, 'Y': 24, 'Z': 25
