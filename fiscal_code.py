@@ -38,8 +38,8 @@ H  giugno    T  dicembre
 # ritorna la lettera associata al mese di nascita
 # es fc_birth_month(1) -> 'A'
 def fc_birth_month(month_no: int) -> str:
-    HMAP: Final[list[str]] = ['A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T']
     assert month_no >= 1 and month_no <= 12
+    HMAP: Final[list[str]] = ['A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T']
     return HMAP[month_no - 1]
 
 # ritorna le ultime 2 cifre dell'anno 
@@ -60,6 +60,7 @@ def fc_birth_day(day_no: int, sex: str) -> str:
 
 # dati i 15 caratteri alfanumerici che compongono il codice fiscale calcola il sedicesimo ed ultimo carattere che funge da carattere di controllo
 def fc_cin(fiscal_code: str) -> str:
+    assert len(fiscal_code) == 15
 
     ODD_ENCODE: Final[dict[str,int]] = {
         '0': 1,  '1': 0,  '2': 5,  '3': 7,  '4': 9,  '5': 13, '6': 15, '7': 17, '8': 19, '9': 21,
@@ -76,8 +77,6 @@ def fc_cin(fiscal_code: str) -> str:
     }
 
     ENCODE: Final[list[dict]] = [EVEN_ENCODE, ODD_ENCODE]
-
-    assert len(fiscal_code) == 15
 
     cin_sum: int = 0
     for idx, ch in enumerate(fiscal_code):
