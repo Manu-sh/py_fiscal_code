@@ -8229,7 +8229,3 @@ COMUNI: Final[dict[str,str]] = {
         'MORANSENGO-TONENGO' : 'M434',
         'UGGIATE CON RONAGO' : 'M435'
 }
-
-def find_comuni(pattern: str) -> list[dict[str,str]]:
-	pattern: str = pattern.upper()
-	return [ { k : v } for k,v in COMUNI.items() if pattern in k ]
