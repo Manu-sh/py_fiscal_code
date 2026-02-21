@@ -15,20 +15,20 @@ def fc_comune(pattern: str) -> str:
 
 # ritorna le 3 cifre relative al cognome (gestisce 1 solo cognome, nella realtà il codice fiscale ne può contemplare più di 1)
 def fc_surname(surname: str) -> str:
-    surname = sorted(surname, key=is_consonant, reverse=True)
+    surname = sorted(surname.upper(), key=is_consonant, reverse=True)
     surname += ['X', 'X', 'X']
-    return ''.join(surname[0:3]).upper()
+    return ''.join(surname[0:3])
 
 # ritorna le 3 cifre relative al nome (gestisce 1 solo nome, nella realtà il codice fiscale ne può contemplare più di 1)
 def fc_name(name: str) -> str:
-    name = sorted(name, key=is_consonant, reverse=True)
+    name = sorted(name.upper(), key=is_consonant, reverse=True)
 
     if len(name) <= 3:
         name += ['X', 'X', 'X']
-        return ''.join(name[0:3]).upper()
+        return ''.join(name[0:3])
 
     name = name[0:3] if not is_consonant(name[3]) else [name[0], name[2], name[3]]
-    return ''.join(name).upper()
+    return ''.join(name)
 
 
 """
